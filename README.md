@@ -2,6 +2,10 @@
 
 A lightweight, animated weather web app built with plain HTML, CSS, and JavaScript. It lets users search for a city, view the current weather conditions, switch between Fahrenheit and Celsius, and review a 5-day forecast.
 
+## Project URL
+
+https://xterminator101.github.io/Weather-Dashboard/
+
 ## What the project does
 
 Weather Dashboard is a browser-based UI for checking live weather forecasts. It uses the Open-Meteo geocoding and forecast APIs to look up a location and display current atmospheric data in a polished, responsive card layout.
