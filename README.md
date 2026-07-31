@@ -29,8 +29,6 @@ This project is useful for developers and learners who want a clean example of a
 
 ![Weather Dashboard screenshot](./screenshot.png)
 
-> Save your screenshot as `screenshot.png` in the repository root to display it in the README preview section.
-
 ## Getting started
 
 ### Prerequisites
