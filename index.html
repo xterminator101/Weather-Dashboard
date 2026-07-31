@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1.0">
+    <title>Weather Dashboard</title>
+    <link rel = "preconnect" href = "https://fonts.googleapis.com">
+    <link rel = "preconnect" href = "https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.12/css/weather-icons.min.css">
+    <link rel = "stylesheet" href = "style.css">
+</head>
+
+<body>
+
+    <div id = "tsparticles"></div>
+
+    <main class="app">
+
+        <span class = "eyebrow">Current Conditions</span>
+
+        <div class = "header-row">
+            <h1>Weather Dashboard</h1>
+            <div class = "temp-toggle" id = "temp-toggle">
+                <button type = "button" class = "temp-btn active" data-unit = "F">°F</button>
+                <button type = "button" class = "temp-btn" data-unit = "C">°C</button>
+            </div>
+        </div>
+
+        <form id = "search-form">
+            <div class = "input-wrapper">
+                <input type = "text" id = "city-input" placeholder = "Enter a city:" autocomplete = "off">
+                <ul id = "suggestions" class = "suggestions hidden"></ul>
+            </div>
+            <button type = "submit">Search</button>
+        </form>
+
+        <div id = "status"></div>
+        <div id = "loading-spinner" class = "loading-spinner hidden"></div>
+
+        <section id = "weather-card" class = "weather-card hidden">
+            <h2 id = "city-name"></h2>
+
+            <div class = "reading">
+                <div class = "reading-top">
+                    <div id = "weather-icon" class = "weather-icon"></div>
+                    <span id = "temperature" class = "reading-value"></span>
+                </div>
+                <div class = "horizon"></div>
+            </div>
+
+            <div class = "data-row">
+                <span class = "data-label">Condition:</span>
+                <span id = "condition" class = "data-value"></span>
+            </div>
+
+            <div class = "data-row">
+                <span class = "data-label">Wind:</span>
+                <span id = "wind" class = "data-value"></span>
+            </div>
+
+            <div id = "forecast" class = "forecast"></div>
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/all@3/tsparticles.all.bundle.min.js"></script>
+    <div id="lightning-flash"></div>
+    <script src = "script.js"></script>
+
+</body>
+</html>

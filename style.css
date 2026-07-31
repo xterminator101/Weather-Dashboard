@@ -1,0 +1,457 @@
+:root {
+    --mood-bg: #10182f;
+    --bg-panel: #131e49;
+    --mood-glow: #2c3357;
+    --line: #2c3357;
+    --text: #eae7dd;
+    --text-dim: #8891b3;
+    --accent: #e8a33d;
+    --accent-dim: #a3763a;
+    --teal: #5fb4a2;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-display);
+    background-color: var(--mood-bg);
+    min-height: 100vh;
+    transition: background-color 1.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 4.5rem 1.5rem;
+    color: var(--text);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: -20%;
+    background: radial-gradient(circle, var(--mood-glow) 0%, transparent 60%);
+    opacity: 0.35;
+    z-index: 0;
+    animation: drift 40s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes drift {
+    0% { transform: translate(-5%, -5%) scale(1); }
+    50% { transform: translate(5%, 3%) scale(1.15); }
+    100% { transform: translate(-3%, 6%) scale(1); } 
+}
+
+#tsparticles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+#tsparticles canvas {
+    pointer-events: none;
+}
+
+#lightning-flash {
+    position: fixed;
+    inset: 0;
+    background: #ffffff;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::before {
+        animation: none;
+    }
+}
+
+.app {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+/* Input Form Styles */
+
+#search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+#city-input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--line);
+    background: var(--bg-panel);
+    color: var(--text);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+}
+
+.suggestions {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    list-style: none;
+    max-height: 220px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.suggestions.hidden {
+    display: none;
+}
+
+.suggestion {
+    padding: 0.55rem 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--text);
+    cursor: pointer;
+    border-top: 1px solid var(--line);
+}
+
+.suggestion:first-child {
+    border-top: none;
+}
+
+.suggestion:hover,
+.suggestion.highlighted {
+    background: rgba(232, 163, 61, 0.12);
+    color: var(--accent);
+}
+
+#city-input::placeholder {
+    color: var(--text-dim);
+}
+
+#city-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Submit Button Styles */
+
+button[type = "submit"] {
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: #1b1206;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+}
+
+button[type = "submit"]:hover {
+    background-color: #f4b95c;
+}
+
+/* Status Message Styles */
+
+#status {
+    min-height: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    font-family: var(--font-mono);
+}
+
+/* Weather Card Styles */
+
+.weather-card {
+    background: var(--bg-panel);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    animation: rise 0.5s ease;
+}
+
+.weather-card.hidden {
+    display: none;
+}
+
+/* City Name and Reading Styles */
+
+#city-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-dim);
+}
+
+.reading {
+    margin-bottom: 1.5rem;
+}
+
+.reading-value {
+    font-family: var(--font-mono);
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+/* Weather Icons */
+
+.reading-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.weather-icon {
+    color: var(--accent);
+}
+
+.weather-icon i {
+    font-size: 44px;
+    line-height: 1;
+}
+
+.forecast-icon {
+    color: var(--teal);
+    flex-shrink: 0;
+}
+
+.forecast-icon i {
+    font-size: 18px;
+    display: block;
+}
+
+/* Horizontal Line Styles */
+
+.horizon {
+    height: 1px;
+    margin-top: 1.25rem;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--line) 55%, transparent 100%);
+}
+
+/* Data Styles */
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--line);
+}
+
+.data-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+}
+
+.data-value {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Header Row Styles */
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+}
+
+.header-row h1 {
+    margin-bottom: 0;
+}
+
+/* Temperature Toggle Buttons */
+
+.temp-toggle {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.temp-btn {
+    background: var(--bg-panel);
+    color: var(--text-dim);
+    border: none;
+    padding: 0.4rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.temp-btn.active {
+    background: var(--accent);
+    color: #1b1206;
+    font-weight: 500;
+}
+
+/* Error Message Styles */
+
+#status.error {
+    color: #f28b82;
+}
+
+/* Loading Spinner */
+
+.loading-spinner {
+    border: 4px solid var(--line);
+    border-top: 4px solid var(--accent);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem auto;
+}
+
+.loading-spinner.hidden {
+    display: none;
+}
+
+/* Forecast Section */
+
+.forecast {
+    margin-top: 1.25rem;
+}
+
+.forecast-day {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 0;
+    gap: 0.5rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.forecast-label {
+    width: 3.2rem;
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+.forecast-condition {
+    flex: 1;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.forecast-temps {
+    display: flex;
+    gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+}
+
+.forecast-high {
+    color: var(--text);
+}
+
+.forecast-low {
+    color: var(--text-dim);
+}
+
+/* Animations */
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rise {
+    from { 
+        opacity: 0; transform: translateY(6px); 
+    }
+    to { 
+        opacity: 1; transform: translateY(0); 
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .weather-card {
+        animation: none;
+    }
+}
+
+
+/* Mobile Responsiveness */
+
+@media (max-width: 480px) {
+    body {
+        padding: 2.5rem 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .reading-value {
+        font-size: 2.5rem;
+    }
+
+    #search-form {
+        flex-direction: column;
+    }
+
+    button[type = "submit"] {
+        width: 100%;
+    }
+
+    .forecast-condition {
+        font-size: 0.75rem;
+    }
+}
